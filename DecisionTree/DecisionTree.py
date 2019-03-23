@@ -12,9 +12,12 @@ wine.target_names
 Xtrain,Xtest,Ytrain,Ytest = train_test_split(wine.data,wine.target,test_size=0.3)
 Xtrain.shape
 wine.data.shape
-clf = tree.DecisionTreeClassifier(criterion='entropy')
+clf = tree.DecisionTreeClassifier(criterion='entropy'
+                                  ,random_state=30
+                                  ,splitter='random')
 clf = clf.fit(Xtrain,Ytrain)
 score = clf.score(Xtest,Ytest)
+print(score)
 
 
 feature_name = ['酒精','苹果酸','灰','灰的碱性','镁','总酚','类黄酮','非黄烷类酚类','花青素','颜色强度','色调','od280/od315稀释葡萄酒','脯氨酸']
@@ -25,3 +28,7 @@ dot_data = tree.export_graphviz(clf
                                 ,filled=True
                                 ,rounded=True)
 graph = graphviz.Source(dot_data)
+
+
+clf.feature_importances_    #特征的重要性排名
+#[*zip(feature_name,clf.feature_importance_)]              #将重要性和特征名对应起来
